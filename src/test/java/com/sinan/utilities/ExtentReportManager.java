@@ -17,10 +17,10 @@ public class ExtentReportManager {
     public static ExtentReports createInstance() {
         Locale.setDefault(Locale.ENGLISH);
 
-        String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
-        String fileName = REPORT_PATH + dateName + ".html";
 
-        ExtentSparkReporter htmlReporter = new ExtentSparkReporter(REPORT_PATH);
+        String fileName = FrameworkConstants.REPORT_PATH + "TestReport.html";
+
+        ExtentSparkReporter htmlReporter = new ExtentSparkReporter(fileName);
 
         htmlReporter.config().setTheme(Theme.DARK); // Koyu tema candır :)
         htmlReporter.config().setDocumentTitle("Otomasyon Raporu");
