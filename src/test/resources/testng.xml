@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Otomasyon Suite" parallel="methods" thread-count="2">
+
+    <listeners>
+        <listener class-name="com.sinan.listeners.TestListener"/>
+        <listener class-name="com.sinan.utilities.AnnotationTransformer"/>
+    </listeners>
+
+    <test name="Login Testleri">
+        <classes>
+            <class name="com.sinan.tests.LoginTests"/>
+        </classes>
+    </test>
+</suite>
