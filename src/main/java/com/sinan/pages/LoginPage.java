@@ -21,11 +21,9 @@ public class LoginPage extends BasePage{
     @FindBy(id = "login")
     WebElement btnLogin;
 
-    // hatalı giriş
     @FindBy(css = "p[id='name']")
     WebElement lblErrorMessage;
 
-    // passwordBoxControl
     @FindBy(css = "input[class='mr-sm-2 is-invalid form-control']")
     WebElement passwordBoxControl;
 

@@ -5,55 +5,57 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.sinan.tests.BaseTest;
 import com.sinan.utilities.ExtentReportManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 public class TestListener implements ITestListener{
-    // Rapor objeleri
+    
+    private static final Logger logger = LogManager.getLogger(TestListener.class);
     private static ExtentReports extent = ExtentReportManager.createInstance();
     private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
 
     @Override
     public void onTestStart(ITestResult result) {
-        // Test her başladığında raporda yeni bir kayıt aç
+        logger.info("Test başlatılıyor: {}", result.getMethod().getMethodName());
         ExtentTest extentTest = extent.createTest(result.getMethod().getMethodName());
         test.set(extentTest);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
+        logger.info("Test başarılı: {}", result.getMethod().getMethodName());
         test.get().log(Status.PASS, "Test Başarılı: " + result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        // 1. Hata mesajını rapora ekle
+        logger.error("Test başarısız: {}", result.getMethod().getMethodName(), result.getThrowable());
         test.get().fail(result.getThrowable());
 
-        // 2. Screenshot al ve rapora ekle
         try {
-            // Test sınıfındaki driver'ı alıyoruz
             Object currentClass = result.getInstance();
             WebDriver driver = ((BaseTest) currentClass).getDriver();
 
-            // Screenshot metodunu çağırıyoruz
             if (driver != null) {
                 String screenshotPath = ((BaseTest) currentClass).getScreenshot(result.getMethod().getMethodName());
-                // Rapora resmi ekle
+                logger.debug("Screenshot alındı: {}", screenshotPath);
                 test.get().addScreenCaptureFromPath(screenshotPath);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Screenshot alınırken hata oluştu", e);
         }
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        // Raporu kaydet ve kapat
+        logger.info("Test suite tamamlandı. Rapor kaydediliyor...");
         if (extent != null) {
             extent.flush();
+            logger.info("Rapor başarıyla kaydedildi");
         }
     }
 

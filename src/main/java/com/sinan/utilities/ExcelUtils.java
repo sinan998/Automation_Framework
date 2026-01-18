@@ -13,11 +13,9 @@ public class ExcelUtils {
             Workbook workbook = WorkbookFactory.create(fis);
             sheet = workbook.getSheet(sheetName);
 
-            // --- EKLEMEN GEREKEN KISIM ---
             if (sheet == null) {
                 throw new RuntimeException("HATA: Excel dosyasında '" + sheetName + "' isminde bir sayfa bulunamadı! Lütfen dosyadaki sekme adını kontrol et (Genelde 'Sheet1' veya 'Sayfa1' olur).");
             }
-            // -----------------------------
 
         } catch (Exception e) {
             throw new RuntimeException("Excel dosyası okunurken hata: " + e.getMessage());
@@ -35,7 +33,6 @@ public class ExcelUtils {
                 String cellData = "";
                 try {
                     Cell cell = sheet.getRow(i).getCell(j);
-                    // Boş hücre kontrolü
                     cellData = (cell == null) ? "" : cell.toString();
                 } catch (Exception e) {
                     cellData = "";

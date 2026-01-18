@@ -1,6 +1,8 @@
 package com.sinan.pages;
 
 import com.sinan.utilities.ConfigManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,6 +15,7 @@ import java.time.Duration;
 public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected static final Logger logger = LogManager.getLogger(BasePage.class);
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -33,17 +36,17 @@ public class BasePage {
     public boolean isElementDisplayed(WebElement element) {
         try {
             wait.until(ExpectedConditions.visibilityOf(element));
+            logger.debug("Element görünür: {}", element);
             return true;
         } catch (Exception e) {
+            logger.debug("Element görünür değil: {}", element);
             return false;
         }
     }
 
     public void scrollToElement(WebElement element) {
-        // Önce elementin var olmasını bekle (Garanti olsun)
         wait.until(ExpectedConditions.visibilityOf(element));
 
-        // JS ile kaydır
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(true);", element);
     }

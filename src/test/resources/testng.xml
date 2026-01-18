@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Otomasyon Suite" parallel="methods" thread-count="2">
+<suite name="Otomasyon Suite" parallel="methods" thread-count="5">
 
     <listeners>
         <listener class-name="com.sinan.listeners.TestListener"/>
@@ -9,6 +9,18 @@
     <test name="Login Testleri">
         <classes>
             <class name="com.sinan.tests.LoginTests"/>
+        </classes>
+    </test>
+
+    <test name="Text Box Testleri">
+        <classes>
+            <class name="com.sinan.tests.TextBoxTest"/>
+        </classes>
+    </test>
+
+    <test name="Radio Button Testleri">
+        <classes>
+            <class name="com.sinan.tests.RadioButtonTest"/>
         </classes>
     </test>
 </suite>
